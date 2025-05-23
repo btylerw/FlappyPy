@@ -15,14 +15,16 @@ running = True
 dt = 0
 
 # Creates game objects
-player = Character(100, 100, "img/pythonlogo.png")
+player_image = pygame.image.load("img/pythonlogo.png")
+player_image = pygame.transform.scale(player_image, (64, 64))
+player = Character(100, 100, player_image, SCREEN_HEIGHT)
 # Loading the pipe image to use in obstacles class
 pipe_image = pygame.image.load("img/pipe.png")
 # Creating a pipe image that is flipped upside down
 flipped_pipe_image = pygame.transform.flip(pipe_image, False, True)
 # Creating two pipes that will have a small space between them that the player must navigate through
-pipe = Pipe(1000, 600, pipe_image, SCREEN_HEIGHT, SCREEN_WIDTH)
-flipped_pipe = Pipe(1000, 0, flipped_pipe_image, SCREEN_HEIGHT, SCREEN_WIDTH)
+pipe = Pipe(1000, 500, pipe_image, SCREEN_HEIGHT, SCREEN_WIDTH)
+flipped_pipe = Pipe(1000, 100, flipped_pipe_image, SCREEN_HEIGHT, SCREEN_WIDTH)
 # Creating sprite groups for rendering/collision detection
 players = pygame.sprite.Group()
 pipes = pygame.sprite.Group()
