@@ -1,19 +1,25 @@
 # Example file showing a circle moving on screen
 import pygame
 from character import Character
+from obstacles import Pipe
 
 # pygame setup
 pygame.init()
-screen = pygame.display.set_mode((1280, 720))
+SCREEN_HEIGHT = 1280
+SCREEN_WIDTH = 720
+
+screen = pygame.display.set_mode((SCREEN_HEIGHT, SCREEN_WIDTH))
 clock = pygame.time.Clock()
 running = True
 dt = 0
 
 # Creates player character
 player = Character(100, 100, "img/pythonlogo.png")
+pipes = Pipe(500, 500, "img/pipe.png", SCREEN_HEIGHT, SCREEN_WIDTH)
 all_sprites = pygame.sprite.Group()
 # Adds player to sprites that will be rendered
 all_sprites.add(player)
+all_sprites.add(pipes)
 
 while running:
     # poll for events
