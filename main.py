@@ -13,13 +13,14 @@ clock = pygame.time.Clock()
 running = True
 dt = 0
 
-# Creates player character
+# Creates game objects
 player = Character(100, 100, "img/pythonlogo.png")
-pipes = Pipe(500, 500, "img/pipe.png", SCREEN_HEIGHT, SCREEN_WIDTH)
-all_sprites = pygame.sprite.Group()
-# Adds player to sprites that will be rendered
-all_sprites.add(player)
-all_sprites.add(pipes)
+pipe = Pipe(500, 500, "img/pipe.png", SCREEN_HEIGHT, SCREEN_WIDTH)
+# Creating sprite groups for rendering/collision detection
+players = pygame.sprite.Group()
+pipes = pygame.sprite.Group()
+players.add(player)
+pipes.add(pipe)
 
 while running:
     # poll for events
@@ -30,8 +31,14 @@ while running:
 
     # fill the screen with a color to wipe away anything from last frame
     screen.fill("purple")
-    all_sprites.update()
-    all_sprites.draw(screen)
+    # Collision detection between the player and any pipe on the screen
+    collision = pygame.sprite.spritecollide(player, pipes, False)
+    if collision:
+        print("Collision detected")
+    player.update()
+    pipes.update()
+    players.draw(screen)
+    pipes.draw(screen)
 
     # flip() the display to put your work on screen
     pygame.display.flip()
