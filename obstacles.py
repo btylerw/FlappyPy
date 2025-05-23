@@ -19,6 +19,10 @@ class Pipe(pygame.sprite.Sprite):
         if self.rect.right < 0:
             self.rect.topleft = (self.x, self.y)
 
+    # Resets position
+    def reset(self):
+        self.rect.topleft = (self.x, self.y)
+
     def update(self):
         # Move pipe to the left
         self.rect.x -= self.speed

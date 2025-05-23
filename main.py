@@ -12,10 +12,13 @@ SCREEN_WIDTH = 720
 screen = pygame.display.set_mode((SCREEN_HEIGHT, SCREEN_WIDTH))
 clock = pygame.time.Clock()
 running = True
+# Game is paused on launch
+start = False
 dt = 0
 
 # Creates game objects
 player_image = pygame.image.load("img/pythonlogo.png")
+# Resizing player image
 player_image = pygame.transform.scale(player_image, (64, 64))
 player = Character(100, 100, player_image, SCREEN_HEIGHT)
 # Loading the pipe image to use in obstacles class
@@ -39,23 +42,33 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    # fill the screen with a color to wipe away anything from last frame
+    # Drawing everything on the screen before any physics happen
     screen.fill("purple")
-    # Collision detection between the player and any pipe on the screen
-    collision = pygame.sprite.spritecollide(player, pipes, False)
-    if collision:
-        print("Collision detected")
-    player.update()
-    pipes.update()
     players.draw(screen)
     pipes.draw(screen)
-
-    # flip() the display to put your work on screen
     pygame.display.flip()
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_RETURN]:
+        # Game starts once player presses Enter
+        start = True
+    if start:
+        # Collision detection between the player and any pipe on the screen
+        collision = pygame.sprite.spritecollide(player, pipes, False)
+        if collision:
+            # If we detect a collision, the game is over
+            # Reset positions for everything and pause the game
+            print("Collision detected")
+            player.reset()
+            for pipe in pipes:
+                pipe.reset()
+            start = False
+        # Physics happen
+        player.update()
+        pipes.update()
 
-    # limits FPS to 60
-    # dt is delta time in seconds since last frame, used for framerate-
-    # independent physics.
-    dt = clock.tick(60) / 1000
+        # limits FPS to 60
+        # dt is delta time in seconds since last frame, used for framerate-
+        # independent physics.
+        dt = clock.tick(60) / 1000
 
 pygame.quit()

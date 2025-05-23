@@ -18,6 +18,11 @@ class Character(pygame.sprite.Sprite):
         if keys[pygame.K_SPACE]:
             self.speed = 10
     
+    # Resets position and speed
+    def reset(self):
+        self.speed = 10
+        self.rect.topleft = (self.x, self.y)
+
     def update(self):
         # Check for key press
         self.handleKeys()
