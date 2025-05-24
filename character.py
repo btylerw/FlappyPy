@@ -11,6 +11,7 @@ class Character(pygame.sprite.Sprite):
         self.y = y
         self.screen_height = screen_height
         self.speed = speed
+        self.crashed = False
     
     def handleKeys(self):
         keys = pygame.key.get_pressed()
@@ -22,6 +23,7 @@ class Character(pygame.sprite.Sprite):
     def reset(self):
         self.speed = 10
         self.rect.topleft = (self.x, self.y)
+        self.crashed = False
 
     def update(self):
         # Check for key press
@@ -33,5 +35,6 @@ class Character(pygame.sprite.Sprite):
         # Setting a max falling speed
         if (self.speed < -10):
             self.speed = -10
+        # Resets game when user crashes into ground
         if self.rect.bottom > self.screen_height - 500:
-            self.rect.topleft = (self.x, self.y)
+            self.crashed = True
